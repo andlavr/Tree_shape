@@ -1,14 +1,19 @@
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import create_engine, Column, Integer, Float, DateTime, UniqueConstraint, String
+# from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-from main import app
-url = "postgresql://user:123456@188.243.57.73:29650/tree_base"
-app.config['SQLALCHEMY_DATABASE_URI'] = url
 
-db = SQLAlchemy(app)
+from datetime import datetime
+from app.app import db
+from main import app
+# url = "postgresql://user:123456@188.243.57.73:29650/tree_base"
+# app.config['SQLALCHEMY_DATABASE_URI'] = url
+
+# db = SQLAlchemy(app)
 Base = declarative_base()
+
+
 
 class Employees(db.Model):
     __tablename__ ='list_of_employees'
@@ -18,7 +23,7 @@ class Employees(db.Model):
     name = db.Column(db.String)
     patronymic = db.Column(db.String)
     position = db.Column(db.String)
-    start_work_date = db.Column(db.String)
+    start_work_date = db.Column(db.Datetime, default=datetime.date())
     salary = db.Column(db.String)
     boss = db.Column(db.String)
 
@@ -32,12 +37,12 @@ class Bosses(db.Model):
 
 
 
-engine = create_engine(url)
-Session = sessionmaker(bind=engine)
-session = Session()
+# engine = create_engine(url)
+# Session = sessionmaker(bind=engine)
+# session = Session()
 
 # Создание всех таблиц
-Base.metadata.create_all(engine)
+# Base.metadata.create_all(engine)
 
 
 
