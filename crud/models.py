@@ -2,6 +2,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import Mapped, mapped_column
 
 
 from datetime import datetime
@@ -23,7 +24,7 @@ class Employees(db.Model):
     name = db.Column(db.String)
     patronymic = db.Column(db.String)
     position = db.Column(db.String)
-    start_work_date = db.Column(db.Datetime, default=datetime.date())
+    start_work_date: Mapped[datetime] = mapped_column(insert_default=datetime.now())
     salary = db.Column(db.String)
     boss = db.Column(db.String)
 
