@@ -1,4 +1,4 @@
-from flask import request, flash, redirect, render_template, url_for, jsonify
+from flask import request, redirect, render_template, url_for, jsonify
 
 from app.app import app, db
 from app.models import Employees
@@ -10,29 +10,27 @@ from crud.fake_data import surname, personal_name, patronymic, salary_, job
 
 @app.route('/', methods=['GET'])
 def index():
-    posts = Employees.query.all()
-    return render_template("index.html", posts=posts)
-@app.route('/posts', methods=['GET','POST'])
-def add_to_db(surname, personal_name, patronymic, salary_, job):
+    return {'message': 'Hello!'}
+
+@app.route('/employees', methods=['POST'])
+def add_employee():
     if request.method == 'POST':
-        surname = surname['surname']
-        name = personal_name['name']
-        patronymic = patronymic['patronymic']
-        salary = salary_['salary']
-        job = job['job']
-        new_data = Employees(surname=surname, name=personal_name, patronymic=patronymic,
-                            salary=salary_, job=job)
-        db.session.add(new_data)
+        print('Add new employee')
+        data = request.get_json()
+        new_employee = Employees(surname=data['surname'], name=data['name'], patronymic=data['patronymic'],
+                                 salary=data['salary'], job=data['job'], start_work_date=data['start_work_date'])
+        db.session.add(new_employee)
         db.session.commit()
-        flash('Added')
-    return redirect(url_for('index'))
+        db.session.refresh(new_employee)
+        return {'message': f'Employee {new_employee.id} was added to database'}
+    else:
+        return {'message': 'Payload is invalid'}
+
 
 
 
 
 
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
     app.run(debug=True)
 

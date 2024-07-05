@@ -16,8 +16,14 @@ class Employees(db.Model):
     start_work_date = db.Column(DateTime, default=datetime.datetime.utcnow)
     salary = db.Column(String)
     boss = db.Column(String)
+    def __init__(self, surname, name, patronymic, position):
+        self.surname = surname
+        self.name = name
+        self.patronymic = patronymic
+        self.position = position
 
-
+    def __repr__(self):
+        return f'{self.__class__}, surname: {self.surname}, name: {self.name}, patronymic: {self.patronymic}, position: {self.position}'
 class Bosses(db.Model):
     __tablename__ = 'bosses_table'
     id = db.Column(Integer, primary_key=True)
