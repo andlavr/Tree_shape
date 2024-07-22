@@ -1,14 +1,13 @@
 import datetime
 
 from sqlalchemy import DateTime, String, Integer
-import sqlalchemy.orm as so
+from sqlalchemy.orm import relationship, backref
 
 from app.app import db
 
 
 class Employees(db.Model):
-
-    __tablename__ = 'list_of_employees'
+    __tablename__ = 'employees'
 
     id = db.Column(db.Integer, primary_key=True)
     surname = db.Column(String)
@@ -18,17 +17,19 @@ class Employees(db.Model):
     start_work_date = db.Column(DateTime, default=datetime.datetime.utcnow)
     salary = db.Column(String)
 
-    # def __init__(self, surname, name, patronymic, position, salary, start_work_date):
-    #     self.surname = surname
-    #     self.name = name
-    #     self.patronymic = patronymic
-    #     self.position = position
-    #     self.salary = salary
-    #     self.start_work_date = start_work_date
-
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
     def __repr__(self):
         return f'{self.__class__}, surname: {self.surname}, name: {self.name}, patronymic: {self.patronymic}, position: {self.position}'
-class Bosses(db.Model):
-    __tablename__ = 'bosses_table'
-    id = db.Column(Integer, primary_key=True)
-    employer_id = db.Column(Integer, db.ForeignKey('list_of_employees.id'))
+
+
+class SubordinationLinks(db.Model):
+    __tablename__ = 'subordination_links'
+    boss_id = db.Column(Integer, db.ForeignKey('employees.id'), primary_key=True)
+    employer_id = db.Column(Integer, db.ForeignKey('employees.id'), primary_key=True)
+
+    boss = relationship(Employees, foreign_keys=[boss_id], backref=backref("subordinates", cascade="all,delete"))
+    subordinate = relationship(Employees, foreign_keys=[employer_id], backref=backref("bosses", cascade="all,delete"))
+
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}

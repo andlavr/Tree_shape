@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Details</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Employee Details</h1>
+
+        <h2>Employee Information</h2>
+        <table class="table table-striped">
+            <tbody>
+                <tr><th>ID</th><td>{{ employee.id }}</td></tr>
+                <tr><th>Surname</th><td>{{ employee.surname }}</td></tr>
+                <tr><th>Name</th><td>{{ employee.name }}</td></tr>
+                <tr><th>Patronymic</th><td>{{ employee.patronymic }}</td></tr>
+                <tr><th>Position</th><td>{{ employee.position }}</td></tr>
+                <tr><th>Start Work Date</th><td>{{ employee.start_work_date }}</td></tr>
+                <tr><th>Salary</th><td>{{ employee.salary }}</td></tr>
+            </tbody>
+        </table>
+
+        <h2>Boss Information</h2>
+        <table class="table table-striped">
+            <tbody>
+                <tr><th>ID</th><td>{{ boss.id }}</td></tr>
+                <tr><th>Surname</th><td>{{ boss.surname }}</td></tr>
+                <tr><th>Name</th><td>{{ boss.name }}</td></tr>
+                <tr><th>Patronymic</th><td>{{ boss.patronymic }}</td></tr>
+                <tr><th>Position</th><td>{{ boss.position }}</td></tr>
+            </tbody>
+        </table>
+
+        <h2>Subordinates</h2>
+        {% if subordinates %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Surname</th>
+                    <th>Name</th>
+                    <th>Patronymic</th>
+                    <th>Position</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for subordinate in subordinates %}
+                <tr>
+                    <td>{{ subordinate.id }}</td>
+                    <td>{{ subordinate.surname }}</td>
+                    <td>{{ subordinate.name }}</td>
+                    <td>{{ subordinate.patronymic }}</td>
+                    <td>{{ subordinate.position }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>This employee has no subordinates.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
