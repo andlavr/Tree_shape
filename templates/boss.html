@@ -10,7 +10,7 @@
     <div class="container">
         <h1 class="mt-5">Employee Details</h1>
 
-        <h2>Employee Information</h2>
+        <h2>Boss Information</h2>
         <table class="table table-striped">
             <tbody>
                 <tr><th>ID</th><td>{{ employee.id }}</td></tr>
@@ -23,16 +23,6 @@
             </tbody>
         </table>
 
-        <h2>Boss Information</h2>
-        <table class="table table-striped">
-            <tbody>
-                <tr><th>ID</th><td>{{ boss.id }}</td></tr>
-                <tr><th>Surname</th><td>{{ boss.surname }}</td></tr>
-                <tr><th>Name</th><td>{{ boss.name }}</td></tr>
-                <tr><th>Patronymic</th><td>{{ boss.patronymic }}</td></tr>
-                <tr><th>Position</th><td>{{ boss.position }}</td></tr>
-            </tbody>
-        </table>
 
         <h2>Subordinates</h2>
         {% if subordinates %}
